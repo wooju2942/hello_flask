@@ -1,15 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>음식 목록</title>
+    <title>내 기술 스택</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>좋아하는 음식 목록</h1>
+<body class="p-8">
+    <h1 class="text-2xl font-bold mb-4">내 기술 스택</h1>
 
-    <ul>
-        {% for food in data %}
-            <li>{{ food }}</li>
+    <div class="flex gap-2 flex-wrap">
+        {% for skill in data %}
+            {% if skill != "C#" %}
+                {% if skill == "Python" or skill == "Java" or skill == "Ruby" or skill == "PHP" %}
+                    <span class="bg-gray-300 px-3 py-1 rounded-full">[BAKEND]{{ skill }}</span>
+                {% elif skill == "SQL" %}
+                    <span class="bg-purple-300 px-3 py-1 rounded-full">[BAKEND]{{ skill }}</span>
+                {% elif skill == "HTML" or skill == "CSS" or skill == "JavaScript" or skill == "TypeScript" %}
+                    <span class="bg-orange-300 px-3 py-1 rounded-full">[BAKEND]{{ skill }}</span>
+                {% elif skill == "C" or skill == "C++" or skill == "Rust" %}
+                    <span class="bg-blue-300 px-3 py-1 rounded-full">[BAKEND]{{ skill }}</span>
+                {% elif skill == "Go" or skill == "Dart" or skill == "Kotlin" or skill == "Swift" or skill == "Bash" or skill == "Shell" or skill == "Markdown" or skill == "R" %}
+                    <span class="bg-green-300 px-3 py-1 rounded-full">[BAKEND]{{ skill }}</span>
+                {% else %}
+                    <span class="bg-gray-300 px-3 py-1 rounded-full">{{ skill }}</span>          
+                {% endif %}
+             {%endif%}    
         {% endfor %}
-    </ul>
+        </div>
 </body>
 </html>
