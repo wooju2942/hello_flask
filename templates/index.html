@@ -1,40 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <title>내 기술 스택</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <title>기술 목록</title>
 </head>
-<body class="p-8">
-    <h1 class="text-2xl font-bold mb-4">내 기술 스택</h1>
-    <div class="flex gap-2 flex-wrap">
-        {% for skill in data %}
-            {% if skill != "C#" %}
-                {% if skill == "Python" or skill == "Java" or skill == "Ruby" or skill == "PHP" %}
-                    <span class="bg-gray-300 px-3 py-1 rounded-full">[BAKEND]{{ skill }}</span>
-                {% elif skill == "SQL" %}
-                    <span class="bg-purple-300 px-3 py-1 rounded-full">[DB]{{ skill }}</span>
-                {% elif skill == "HTML" or skill == "CSS" or skill == "JavaScript" or skill == "TypeScript" %}
-                    <span class="bg-orange-300 px-3 py-1 rounded-full">{{ skill }}</span>
-                {% elif skill == "C" or skill == "C++" or skill == "Rust" %}
-                    <span class="bg-blue-300 px-3 py-1 rounded-full">{{ skill }}</span>
-                {% else %}
-                    <span class="bg-green-300 px-3 py-1 rounded-full">{{ skill }}</span>          
-                {% endif %}
-            {%endif%}    
-        {% endfor %}
-    </div>
-    <div>
-        <h2 class="mt9 text=xl font-bold">입력한 데이터</h2>
-        {% for item in messages %}
-            <div class="bg-yellow-200 p-2 m-2 rounded">{{ item }}</div>
-        {% endfor %}
-    </div>
-    <form action="/send" method="POST" class="mt-8">
-        
-        <input type="text" name="skill" placeholder="기술 입력" class="border px-3 py-2 rounded">
-        <input type="text" name="level" placeholder="난이도 입력" class="border px-3 py-2 rounded">
-        <input type="text" name="status" placeholder="학습 여부" class="border px-3 py-2 rounded">
-        <button type="submit" class="bg-black text-white px-3 py-2 rounded">전송</button>
+<body>
+    <h1>기술 목록</h1>
+
+    <form action="/add" method="post">
+        <input type="text" name="name" placeholder="기술명" required>
+        <input type="text" name="status" placeholder="상태" required>
+        <button type="submit">추가</button>
+            <button
+        type="submit"
+        form="delete-selected-form"
+        onclick="return confirm('체크한 기술들을 삭제할까요?');"
+>
+        선택 기술 삭제
+    </button>
     </form>
+
+    <hr>
+
+    <form id="delete-selected-form" action="/delete_selected" method="post"></form>
+
+    <ul>
+        {% for skill in skills %}
+            <li>
+                <input
+                    type="checkbox"
+                    name="selected_ids"
+                    value="{{ skill['id'] }}"
+                    form="delete-selected-form"
+>
+
+                {{ skill["id"] }}.
+                {{ skill["name"] }}
+                -
+                {{ skill["status"] }}
+
+                <a href="/edit/{{ skill['id'] }}">수정</a>
+
+                <form action="/delete/{{ skill['id'] }}" method="post" style="display:inline;">
+                    <button
+                        type="submit"
+                        onclick="return confirm('정말 삭제하시겠습니까?');"
+>
+                        삭제
+                    </button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
